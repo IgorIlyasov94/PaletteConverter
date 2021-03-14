@@ -1,0 +1,7 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/PaletteConverter/.vs/PaletteConverter/v16
+/.vs
+/PaletteConverter/PaletteConverter.vcxproj.user
