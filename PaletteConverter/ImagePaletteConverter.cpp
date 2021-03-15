@@ -1,7 +1,7 @@
 #include "ImagePaletteConverter.h"
 
 ImagePaletteConverter::ImagePaletteConverter(const std::string& imageFilePath, const std::string& paletteImageFilePath)
-	: imageWidth(0), imageHeight(0), paletteWidth(0), paletteHeight(0)
+	: imageWidth(0), imageHeight(0), paletteWidth(0), paletteHeight(0), ditheringPower(0.0f)
 {
 	BMPLoader::Load(imageFilePath, targetImageData, imageWidth, imageHeight);
 	BMPLoader::Load(paletteImageFilePath, paletteData, paletteWidth, paletteHeight);
@@ -12,8 +12,17 @@ ImagePaletteConverter::~ImagePaletteConverter()
 
 }
 
+void ImagePaletteConverter::SetDithering(float power)
+{
+	ditheringPower = power;
+}
+
 void ImagePaletteConverter::Convert()
 {
+	std::random_device randomDevice;
+
+	std::default_random_engine randomEngine(randomDevice());
+
 	for (size_t imagePixelId = 0; imagePixelId < targetImageData.size() / 3; imagePixelId++)
 	{
 		int imagePixelRId = imagePixelId * 3;
@@ -42,6 +51,7 @@ void ImagePaletteConverter::Convert()
 			int bDistance = imagePixelB - paletteColorB;
 
 			float rgbDistance = std::sqrt(static_cast<float>(rDistance * rDistance + gDistance * gDistance + bDistance * bDistance));
+			rgbDistance *= 1.0f + (Random(randomEngine) - 0.5f) * ditheringPower;
 
 			if (minRgbDistance > rgbDistance)
 			{

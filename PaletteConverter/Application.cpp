@@ -31,6 +31,14 @@ int Application::Run()
 
 		ImagePaletteConverter paletteConverter(imageFilePath, paletteFilePath);
 
+		float ditheringPower = 0.0f;
+
+		std::cout << "Enter dithering power (0.0 - 1.0):" << std::endl;
+		std::cin >> ditheringPower;
+		std::cout << std::endl;
+
+		paletteConverter.SetDithering(ditheringPower);
+
 		paletteConverter.Convert();
 
 		std::cout << "Done!" << std::endl << std::endl;

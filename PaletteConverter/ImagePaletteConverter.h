@@ -8,6 +8,7 @@ public:
 	ImagePaletteConverter(const std::string& imageFilePath, const std::string& paletteImageFilePath);
 	~ImagePaletteConverter();
 
+	void SetDithering(float power);
 	void Convert();
 	void SaveResultToFile(const std::string& imageFilePath);
 
@@ -21,4 +22,6 @@ private:
 	int imageHeight;
 	int paletteWidth;
 	int paletteHeight;
+
+	float ditheringPower;
 };

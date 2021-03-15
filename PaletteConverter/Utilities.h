@@ -8,6 +8,14 @@ inline void ThrowIfFailed(bool successCondition, const char* errorMessage)
 		throw std::exception(errorMessage);
 }
 
+template<typename RandomEngine>
+inline float Random(RandomEngine& randomEngine)
+{
+	auto minMaxDistance = randomEngine.max() - randomEngine.min();
+
+	return static_cast<float>(randomEngine() - randomEngine.min()) / static_cast<float>(minMaxDistance);
+}
+
 inline int AlignToNextPowerOf2(int value) noexcept
 {
 	return static_cast<int>(std::pow(2, static_cast<int>(std::ceil(std::log(static_cast<float>(value)) / std::log(2.0f)))));
