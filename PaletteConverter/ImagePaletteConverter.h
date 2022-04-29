@@ -1,6 +1,9 @@
 #pragma once
 
 #include "BMPLoader.h"
+#include <thread>
+
+
 
 class ImagePaletteConverter
 {
@@ -15,6 +18,18 @@ public:
 private:
 	ImagePaletteConverter() = delete;
 
+	using ThreadFunctionData = struct
+	{
+		std::default_random_engine randomEngine;
+		std::vector<uint8_t>& targetImageData;
+		const std::vector<uint8_t>& paletteData;
+		size_t pixelIdStart;
+		size_t pixelIdEnd;
+		float ditherPower;
+	};
+
+	void ThreadFunction(ThreadFunctionData threadFunctionData);
+
 	std::vector<uint8_t> targetImageData;
 	std::vector<uint8_t> paletteData;
 
@@ -24,4 +39,6 @@ private:
 	int paletteHeight;
 
 	float ditheringPower;
+
+	const size_t THREADS_NUMBER = std::thread::hardware_concurrency();
 };
